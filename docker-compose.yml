@@ -47,9 +47,12 @@ services:
       context: elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
+    privileged: true
+    #user: root
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
       - ./elasticsearch:/usr/share/elasticsearch/data:Z
+      - ./elasticsearch/sysctl.conf:/etc/sysctl.conf:rw
     ports:
       - 9200:9200
       - 9300:9300
@@ -65,6 +68,12 @@ services:
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/bootstrap-checks.html
       discovery.type: single-node
     ulimits:
+      nproc:
+        soft: 65536
+        hard: 65536
+      nofile:
+        soft: 65536
+        hard: 65536
       memlock:
         soft: -1
         hard: -1
