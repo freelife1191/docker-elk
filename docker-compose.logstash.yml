@@ -3,14 +3,15 @@ version: '3.8'
 services:
   logstash:
     image: docker.elastic.co/logstash/logstash:7.10.2
-    container_name: logstash-test
+    # container_name: logstash-test
     environment:
       LS_JAVA_OPTS: -Xms512m -Xmx512m
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+      MONITORING_ENABLED: true
     networks:
-      - elastic
+      - elk
     restart: unless-stopped
 
 networks:
-  elastic:
+  elk:
     driver: bridge
