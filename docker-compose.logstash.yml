@@ -8,6 +8,11 @@ services:
       # LS_JAVA_OPTS: -Xms512m -Xmx512m
       # LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
       # MONITORING_ENABLED: true
+    volumes:
+      # - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
+      # - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
+      - ./logstash/config/logstash-test.conf:/usr/share/logstash/config/logstash-test.conf:ro,Z
+      - ./logs/elasticsearch:/var/log/elasticsearch
     networks:
       - elastic
     restart: unless-stopped
