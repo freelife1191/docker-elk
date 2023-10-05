@@ -4,14 +4,14 @@ services:
   logstash-app:
     image: docker.elastic.co/logstash/logstash:7.10.2
     container_name: logstash-app
-    # environment:
+    environment:
       # LS_JAVA_OPTS: -Xms512m -Xmx512m
       # LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
-      # MONITORING_ENABLED: true
+      MONITORING_ENABLED: true
     volumes:
-      # - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
+      - ./app/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
       # - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
-      - ./logstash/config/logstash-test.conf:/usr/share/logstash/config/logstash-test.conf:ro,Z
+      - ./app/logstash/config/logstash-test.conf:/usr/share/logstash/config/logstash-test.conf:ro,Z
       - ./logs/elasticsearch:/var/log/elasticsearch
     networks:
       - elastic
