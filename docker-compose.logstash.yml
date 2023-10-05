@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  logstash:
+  logstash-app:
     image: docker.elastic.co/logstash/logstash:7.10.2
     container_name: logstash-test
     # environment:
