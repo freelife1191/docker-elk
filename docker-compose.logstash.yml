@@ -11,5 +11,5 @@ services:
     restart: unless-stopped
 
 networks:
-  elastic:
+  elk:
     external: true
