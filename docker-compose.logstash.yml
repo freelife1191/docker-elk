@@ -3,7 +3,7 @@ version: '3.8'
 services:
   logstash-app:
     image: docker.elastic.co/logstash/logstash:7.10.2
-    container_name: logstash-test
+    container_name: logstash-app
     # environment:
       # LS_JAVA_OPTS: -Xms512m -Xmx512m
       # LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
