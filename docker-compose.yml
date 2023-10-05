@@ -51,6 +51,7 @@ services:
     privileged: true
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - ./elasticsearch/config/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro,Z
       - ./logs/elasticsearch:/usr/share/elasticsearch/logs:Z
       - ./elasticsearch:/usr/share/elasticsearch/data:Z
       # - ./elasticsearch/sysctl.conf:/etc/sysctl.conf:rw
