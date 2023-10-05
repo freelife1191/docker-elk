@@ -6,4 +6,4 @@ http.host: 0.0.0.0
 
 node.name: logstash
 
-path.data: ${path.home}/data
+path.data: /usr/share/logstash/data
