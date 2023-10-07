@@ -11,8 +11,6 @@ services:
     # Need to override user so we can access the log files, and docker.sock
     privileged: true
     user: root
-    networks:
-      - elk
     volumes:
       - filebeat:/usr/share/filebeat/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -31,11 +29,13 @@ services:
       # on ubuntu first (sudo apt-get install -y auditd audispd-plugins)
       - /var/log/audit/:/var/log/audit/:ro
     environment:
-      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
-      - KIBANA_HOST=${KIBANA_HOST:-localhost}
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-elasticsearch}
+      - KIBANA_HOST=${KIBANA_HOST:-kibana}
       # - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
       # - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-changeme}
       - TZ=Asia/Seoul
+    networks:
+      - elk
     # disable strict permission checks
     command: ["--strict.perms=false"]
     deploy:

@@ -8,8 +8,6 @@ services:
     hostname: "{{.Node.Hostname}}-metricbeat"
     privileged: true
     user: root
-    networks:
-      - elk
     volumes:
       - /proc:/hostfs/proc:ro
       - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
@@ -19,11 +17,13 @@ services:
       - metricbeat:/usr/share/metricbeat/data
       - ./beats/metricbeat/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
     environment:
-      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
-      - KIBANA_HOST=${KIBANA_HOST:-localhost}
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-elasticsearch}
+      - KIBANA_HOST=${KIBANA_HOST:-kibana}
       # - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
       # - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-changeme}
       - TZ=Asia/Seoul
+    networks:
+      - elk
     # disable strict permission checks
     command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
     deploy:
