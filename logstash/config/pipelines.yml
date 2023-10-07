@@ -16,7 +16,7 @@
 - pipeline.id: mypipe1
   path.config: "/usr/share/logstash/pipeline/mypipe1.conf"
 - pipeline.id: mypipe2
-  path.config: "/usr/share/logstash/pipelinc/mypipe2.conf"
+  path.config: "/usr/share/logstash/pipeline/mypipe2.conf"
 # Available options:
 #
 #   # name of the pipeline
