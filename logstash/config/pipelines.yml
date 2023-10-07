@@ -14,9 +14,9 @@
 #   queue.type: persisted
 #   path.config: "/tmp/logstash/*.config"
 - pipeline.id: mypipe1
-  path.config: "${LOGSTASH_HOME}/config/mypipe1.conf"
+  path.config: "/usr/share/logstash/config/mypipe1.conf"
 - pipeline.id: mypipe2
-  path.config: "${LOGSTASH_HOME}/config/mypipe2.conf"
+  path.config: "/usr/share/logstash/config/mypipe2.conf"
 # Available options:
 #
 #   # name of the pipeline
