@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:${ELASTIC_VERSION:-7.10.2}
+    # https://github.com/docker/swarmkit/issues/1951
+    hostname: "{{.Node.Hostname}}-metricbeat"
+    user: root
+    networks:
+      - elastic
+    configs:
+      - source: mb_config
+        target: /usr/share/metricbeat/metricbeat.yml
+    volumes:
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+      - metricbeat:/usr/share/metricbeat/data
+    environment:
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
+      - KIBANA_HOST=${KIBANA_HOST:-localhost}
+      # - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
+      # - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-changeme}
+      - TZ=Asia/Seoul
+    # disable strict permission checks
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+    deploy:
+      mode: global
+
+networks:
+  elastic:
+    external: true
+    # https://www.elastic.co/guide/en/beats/metricbeat/current/running-on-docker.html#monitoring-host
+    name: host
+
+volumes:
+  metricbeat:
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: /home/ubuntu/data/metricbeat
+
+configs:
+  mb_config:
+    file: $PWD/elk/beats/metricbeat/config/metricbeat.yml

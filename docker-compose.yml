@@ -28,6 +28,7 @@ services:
       - ./setup/entrypoint.sh:/entrypoint.sh:ro,Z
       - ./setup/lib.sh:/lib.sh:ro,Z
       - ./setup/roles:/roles:ro,Z
+      - /etc/localtime:/etc/localtime:ro
     environment:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
@@ -37,6 +38,7 @@ services:
       HEARTBEAT_INTERNAL_PASSWORD: ${HEARTBEAT_INTERNAL_PASSWORD:-}
       MONITORING_INTERNAL_PASSWORD: ${MONITORING_INTERNAL_PASSWORD:-}
       BEATS_SYSTEM_PASSWORD: ${BEATS_SYSTEM_PASSWORD:-}
+      TZ: Asia/Seoul
     networks:
       - elk
     depends_on:
@@ -54,6 +56,8 @@ services:
       - ./elasticsearch/config/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties:ro,Z
       - ./logs/elasticsearch:/usr/share/elasticsearch/logs:Z
       - ./elasticsearch:/usr/share/elasticsearch/data:Z
+      - /etc/localtime:/etc/localtime:ro,Z
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro,Z
       # - ./elasticsearch/sysctl.conf:/etc/sysctl.conf:rw
     ports:
       - 9200:9200
@@ -70,6 +74,7 @@ services:
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/bootstrap-checks.html
       discovery.type: single-node
       xpack.security.enabled: false
+      TZ: Asia/Seoul
     ulimits:
       nproc:
         soft: 65536
@@ -121,10 +126,15 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro,Z
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 80:5601
     environment:
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+      monitoring.ui.container.elasticsearch.enabled: true
+      monitoring.ui.container.logstash.enabled: true
+      TZ: Asia/Seoul
     networks:
       - elk
     depends_on:
