@@ -32,6 +32,11 @@ services:
     networks:
       - elk
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     cap_add:
       - AUDIT_CONTROL
       - AUDIT_READ

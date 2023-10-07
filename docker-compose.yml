@@ -88,6 +88,11 @@ services:
     networks:
       - elk
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
     deploy:
       resources:
         limits:
@@ -118,6 +123,11 @@ services:
     depends_on:
       - elasticsearch
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
 
   kibana:
     build:
@@ -140,6 +150,11 @@ services:
     depends_on:
       - elasticsearch
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
 
 networks:
   elk:
