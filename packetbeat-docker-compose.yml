@@ -8,14 +8,12 @@ services:
     hostname: "{{.Node.Hostname}}-packetbeat"
     user: root
     networks:
-      - elastic
-    configs:
-      - source: pb_config
-        target: /usr/share/packetbeat/packetbeat.yml
+      - elk
     volumes:
       - packetbeat:/usr/share/packetbeat/data
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
+      - ./beats/packetbeat/config/packetbeat.yml:/usr/share/packetbeat/packetbeat.yml:ro
     environment:
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
       - KIBANA_HOST=${KIBANA_HOST:-localhost}
@@ -33,8 +31,8 @@ services:
       mode: global
 
 networks:
-  elastic:
-    external: true
+  elk:
+    driver: bridge
     name: host
 
 volumes:
@@ -44,8 +42,3 @@ volumes:
     #   type: none
     #   o: bind
     #   device: /home/ubuntu/data/packetbeat
-  
-
-configs:
-  pb_config:
-    file: $PWD/elk/beats/packetbeat/config/packetbeat.yml

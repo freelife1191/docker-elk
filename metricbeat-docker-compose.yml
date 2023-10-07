@@ -8,10 +8,7 @@ services:
     hostname: "{{.Node.Hostname}}-metricbeat"
     user: root
     networks:
-      - elastic
-    configs:
-      - source: mb_config
-        target: /usr/share/metricbeat/metricbeat.yml
+      - elk
     volumes:
       - /proc:/hostfs/proc:ro
       - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
@@ -19,6 +16,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
       - metricbeat:/usr/share/metricbeat/data
+      - ./beats/metricbeat/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
     environment:
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
       - KIBANA_HOST=${KIBANA_HOST:-localhost}
@@ -31,8 +29,8 @@ services:
       mode: global
 
 networks:
-  elastic:
-    external: true
+  elk:
+    driver: bridge
     # https://www.elastic.co/guide/en/beats/metricbeat/current/running-on-docker.html#monitoring-host
     name: host
 
@@ -43,7 +41,3 @@ volumes:
     #   type: none
     #   o: bind
     #   device: /home/ubuntu/data/metricbeat
-
-configs:
-  mb_config:
-    file: $PWD/elk/beats/metricbeat/config/metricbeat.yml

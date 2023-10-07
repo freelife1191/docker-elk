@@ -11,30 +11,24 @@ services:
     # Need to override user so we can access the log files, and docker.sock
     user: root
     networks:
-      - elastic
-    configs:
-      - source: fb_config
-        target: /usr/share/filebeat/filebeat.yml
-      - source: fb_module_elasticsearch
-        target: /usr/share/filebeat/modules.d/elasticsearch.yml
+      - elk
     volumes:
       - filebeat:/usr/share/filebeat/data
       - /var/run/docker.sock:/var/run/docker.sock
       # This is needed for filebeat to load container log path as specified in filebeat.yml
       - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
       - /etc/localtime:/etc/localtime:ro
-
+      - ./beats/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./beats/filebeat/config/modules.d/elasticsearch.yml:/usr/share/filebeat/modules.d/elasticsearch.yml:ro
+      - ./logs/filebeat:/usr/share/filebeat/logs
+      - ./logs/elasticsearch:/usr/share/elasticsearch/logs:ro
       # # This is needed for filebeat to load jenkins build log path as specified in filebeat.yml
       # - /var/lib/docker/volumes/jenkins_home/_data/jobs/:/var/lib/docker/volumes/jenkins_home/_data/jobs/:ro
-
       # This is needed for filebeat to load logs for system and auth modules
-      # - /var/log/:/var/log/:ro
-      # - filebeat-log:/var/log
-      - filebeat-log:/usr/share/filebeat/logs
-      - /home/ubuntu/log/elasticsearch:/var/log/elasticsearch:ro
+      - /var/log/:/var/log/:ro
       # This is needed for filebeat to load logs for auditd module. you might have to install audit system
       # on ubuntu first (sudo apt-get install -y auditd audispd-plugins)
-      #- /var/log/audit/:/var/log/audit/:ro
+      - /var/log/audit/:/var/log/audit/:ro
     environment:
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
       - KIBANA_HOST=${KIBANA_HOST:-localhost}
@@ -47,26 +41,9 @@ services:
       mode: global
 
 networks:
-  elastic:
-    external: true
+  elk:
+    driver: bridge
     name: host
 
 volumes:
   filebeat:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/ubuntu/data/filebeat
-  filebeat-log:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/ubuntu/log/filebeat
-
-configs:
-  fb_config:
-    file: $PWD/elk/beats/filebeat/config/filebeat.yml
-  fb_module_elasticsearch:
-    file: $PWD/elk/beats/filebeat/config/modules.d/elasticsearch.yml

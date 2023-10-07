@@ -9,31 +9,31 @@
     # Set custom paths for the log files. If left empty,
     # Filebeat will choose the paths depending on your OS.
     var.paths: 
-      - /var/log/elasticsearch/*_server.json
+      - /usr/share/elasticsearch/logs/*_server.json
 
   audit:
     enabled: true
     # Set custom paths for the log files. If left empty,
     # Filebeat will choose the paths depending on your OS.
     var.paths: 
-      - /var/log/elasticsearch/*_audit.json
+      - /usr/share/elasticsearch/logs/*_audit.json
 
   slowlog:
     enabled: true
     # Set custom paths for the log files. If left empty,
     # Filebeat will choose the paths depending on your OS.
     var.paths:
-      - /var/log/elasticsearch/*_index_search_slowlog.json 
-      - /var/log/elasticsearch/*_index_indexing_slowlog.json
+      - /usr/share/elasticsearch/logs/*_index_search_slowlog.json 
+      - /usr/share/elasticsearch/logs/*_index_indexing_slowlog.json
 
   deprecation:
     enabled: true
     # Set custom paths for the log files. If left empty,
     # Filebeat will choose the paths depending on your OS.
     var.paths:
-      - /var/log/elasticsearch/*_deprecation.json
+      - /usr/share/elasticsearch/logs/*_deprecation.json
 
   gc:
     var.paths:
-      - /var/log/elasticsearch/gc.log.[0-9]*
-      - /var/log/elasticsearch/gc.log
+      - /usr/share/elasticsearch/logs/gc.log.[0-9]*
+      - /usr/share/elasticsearch/logs/gc.log

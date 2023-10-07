@@ -18,14 +18,12 @@ services:
     # support for capabilities https://github.com/moby/moby/pull/38380
     pid: host
     networks:
-      - elastic
-    configs:
-      - source: ab_config
-        target: /usr/share/auditbeat/auditbeat.yml
+      - elk
     volumes:
       - auditbeat:/usr/share/auditbeat/data
       - /var/log:/var/log:ro
       - /etc/localtime:/etc/localtime:ro
+      - ./beats/auditbeat/config/auditbeat.yml:/usr/share/auditbeat/auditbeat.yml:ro
     environment:
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-localhost}
       - KIBANA_HOST=${KIBANA_HOST:-localhost}
@@ -40,8 +38,8 @@ services:
       mode: global
 
 networks:
-  elastic:
-    external: true
+  elk:
+    driver: bridge
 
 volumes:
   auditbeat:
@@ -50,7 +48,3 @@ volumes:
     #   type: none
     #   o: bind
     #   device: /home/ubuntu/data/auditbeat
-
-configs:
-  ab_config:
-    file: $PWD/elk/beats/auditbeat/config/auditbeat.yml
