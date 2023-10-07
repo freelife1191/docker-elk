@@ -70,7 +70,6 @@ services:
       # see: https://www.elastic.co/guide/en/elasticsearch/reference/7.17/bootstrap-checks.html
       discovery.type: single-node
       xpack.security.enabled: false
-      ingest.geoip.downloader.enabled: false
     ulimits:
       nproc:
         soft: 65536
@@ -88,8 +87,8 @@ services:
       resources:
         limits:
           cpus: "2"
-        # reservations:
-          # cpus: "1"
+        reservations:
+          cpus: "2"
 
   logstash:
     build:
