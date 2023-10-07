@@ -9,6 +9,7 @@ services:
     # https://github.com/docker/swarmkit/issues/1951
     hostname: "{{.Node.Hostname}}-filebeat"
     # Need to override user so we can access the log files, and docker.sock
+    privileged: true
     user: root
     networks:
       - elk

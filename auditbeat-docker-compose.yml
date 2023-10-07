@@ -10,6 +10,7 @@ services:
     # https://github.com/docker/swarmkit/issues/1951
     hostname: "{{.Node.Hostname}}-auditbeat"
     # Need to override user so we can access the log files, and docker.sock
+    privileged: true
     user: root
     # https://www.elastic.co/guide/en/beats/auditbeat/current/running-on-docker.html#_special_requirements
     # PID and CAP_ADD options are ignored as they are Not yet available in swarm mode at the moment.

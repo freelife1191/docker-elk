@@ -6,6 +6,7 @@ services:
     image: docker.elastic.co/beats/packetbeat:${ELASTIC_VERSION:-7.10.2}
     # https://github.com/docker/swarmkit/issues/1951
     hostname: "{{.Node.Hostname}}-packetbeat"
+    privileged: true
     user: root
     networks:
       - elk
