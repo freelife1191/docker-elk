@@ -82,6 +82,12 @@ services:
     networks:
       - elk
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+        reservations:
+          cpus: "1"
 
   logstash:
     build:
