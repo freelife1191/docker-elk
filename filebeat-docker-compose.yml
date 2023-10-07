@@ -36,6 +36,7 @@ services:
       - TZ=Asia/Seoul
     networks:
       - elk
+    restart: unless-stopped
     # disable strict permission checks
     command: ["--strict.perms=false"]
     deploy:

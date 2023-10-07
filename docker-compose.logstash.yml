@@ -14,7 +14,11 @@ services:
       - ./app/logstash/config/logstash-test.conf:/usr/share/logstash/config/logstash-test.conf:ro,Z
       - ./logs/elasticsearch:/var/log/elasticsearch
     networks:
-      - elastic
+      - elastic  
+    # no : 재시작 하지 않음.
+    # always : exit code와 상관없이 항상 재시작.
+    # on-failure : exit code가 0일 아닐때만 재시작
+    # unless-stopped : 컨테이너 상태를 수동으로 stop 하기전까지 재시작.
     restart: unless-stopped
 
 networks:
