@@ -33,7 +33,6 @@ networks:
   elk:
     driver: bridge
     # https://www.elastic.co/guide/en/beats/metricbeat/current/running-on-docker.html#monitoring-host
-    name: host
 
 volumes:
   metricbeat:

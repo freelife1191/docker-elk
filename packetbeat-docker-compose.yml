@@ -34,7 +34,6 @@ services:
 networks:
   elk:
     driver: bridge
-    name: host
 
 volumes:
   packetbeat:
