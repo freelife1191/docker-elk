@@ -63,12 +63,12 @@ output.elasticsearch:
   # password: ${ELASTICSEARCH_PASSWORD}
 
 #============================== Dashboards =====================================
-setup.dashboards:
-  enabled: true
+# setup.dashboards:
+  # enabled: true
 
 #============================== Kibana =========================================
-setup.kibana:
-  host: "${KIBANA_HOST}:5601"
+# setup.kibana:
+  # host: "${KIBANA_HOST}:5601"
   # username: ${ELASTICSEARCH_USERNAME}
   # password: ${ELASTICSEARCH_PASSWORD}
 
