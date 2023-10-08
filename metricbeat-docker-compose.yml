@@ -24,8 +24,8 @@ services:
       - TZ=Asia/Seoul
     networks:
       - elk
-    depends_on:
-      - elasticsearch
+    # depends_on:
+      # - elasticsearch
     restart: unless-stopped
     # healthcheck:
     #   test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]

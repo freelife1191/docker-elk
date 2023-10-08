@@ -32,11 +32,11 @@ services:
       - TZ=Asia/Seoul
     networks:
       - elk
-    depends_on:
-      - elasticsearch
+    # depends_on:
+      # - elasticsearch
+      # elasticsearch: { condition: service_healthy }
     restart: unless-stopped
     command: ["--strict.perms=false"]
-      # elasticsearch: { condition: service_healthy }
     deploy:
       mode: global
 
