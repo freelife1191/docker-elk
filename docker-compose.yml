@@ -93,12 +93,12 @@ services:
     #   interval: 10s
     #   timeout: 10s
     #   retries: 3
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-        reservations:
-          cpus: "2"
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "2"
+    #     reservations:
+    #       cpus: "2"
 
   logstash:
     build:
