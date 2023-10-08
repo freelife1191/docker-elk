@@ -54,7 +54,6 @@ processors:
 - add_cloud_metadata:
 - add_docker_metadata: ~
 
-monitoring.enabled: true
 logging.to_files: false
 
 #========================== Elasticsearch output ===============================
@@ -74,5 +73,7 @@ setup.kibana:
   # password: ${ELASTICSEARCH_PASSWORD}
 
 #============================== Xpack Monitoring ===============================
-xpack.monitoring.enabled: true
-  # elasticsearch:
+monitoring.enabled: true
+# xpack.monitoring:
+#   enabled: true
+#   elasticsearch:
