@@ -13,10 +13,10 @@
 # - pipeline.id: another_test
 #   queue.type: persisted
 #   path.config: "/tmp/logstash/*.config"
-- pipeline.id: mypipe1
-  path.config: "/usr/share/logstash/pipeline/mypipe1.conf"
-- pipeline.id: mypipe2
-  path.config: "/usr/share/logstash/pipeline/mypipe2.conf"
+# - pipeline.id: mypipe1
+#   path.config: "/usr/share/logstash/pipeline/mypipe1.conf"
+# - pipeline.id: mypipe2
+#   path.config: "/usr/share/logstash/pipeline/mypipe2.conf"
 # Available options:
 #
 #   # name of the pipeline
