@@ -74,7 +74,6 @@ processors:
 # - add_process_metadata: ~
 
 monitoring.enabled: true
-
 logging.to_files: false
 
 #========================== Elasticsearch output ===============================
@@ -94,6 +93,6 @@ setup.kibana:
   # password: ${ELASTICSEARCH_PASSWORD}
 
 #============================== Xpack Monitoring ===============================
-xpack.monitoring:
-  enabled: true
-  elasticsearch:
+xpack.monitoring.enabled: true
+  # elasticsearch:
+    # hosts: ["${ELASTICSEARCH_HOST}:9200"]

@@ -74,6 +74,5 @@ setup.kibana:
   # password: ${ELASTICSEARCH_PASSWORD}
 
 #============================== Xpack Monitoring ===============================
-xpack.monitoring:
-  enabled: true
-  elasticsearch:
+xpack.monitoring.enabled: true
+  # elasticsearch:

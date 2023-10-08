@@ -23,8 +23,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       #Mount the Filebeat configuration so users can make edits.
       - ./beats/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-       #Mount the prospectors directory. Users can in turn add propspectors to this directory and they will be dynamically loaded.
-      - ./beats/filebeat/config/prospectors.d/:/usr/share/filebeat/prospectors.d/
       - ./beats/filebeat/config/modules.d/elasticsearch.yml:/usr/share/filebeat/modules.d/elasticsearch.yml:ro
       - ./logs/filebeat:/usr/share/filebeat/logs
       - ./logs/elasticsearch:/usr/share/elasticsearch/logs:ro

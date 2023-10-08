@@ -3,9 +3,6 @@
 filebeat.registry.path: /usr/share/filebeat/data/registry
 
 filebeat.config:
-  prospectors:
-    path: ${path.home}/prospectors.d/*.yml
-    reload.enabled: false
   modules:
     path: ${path.home}/modules.d/*.yml
     # path: ${path.config}/modules.d/*.yml
@@ -27,12 +24,12 @@ filebeat.modules:
     # this is probably something you would want to install. (sudo apt-get install -y auditd audispd-plugins)
     enabled: true
 
-#filebeat.inputs:
-#- type: container
-#  enabled: true
-#  paths:
-#    -/var/lib/docker/containers/*/*.log
-#  stream: all # can be all, stdout or stderr
+filebeat.inputs:
+- type: container
+  enabled: true
+  paths:
+    -/var/lib/docker/containers/*/*.log
+  stream: all # can be all, stdout or stderr
 # filebeat.inputs:
 # - type: log
 #   enabled: true
@@ -57,7 +54,6 @@ processors:
     netinfo.enabled: true
 
 monitoring.enabled: true
-
 logging.to_files: false
 
 #========================== Elasticsearch output ===============================
@@ -77,6 +73,6 @@ setup.kibana:
   # password: ${ELASTICSEARCH_PASSWORD}
 
 #============================== Xpack Monitoring ===============================
-xpack.monitoring:
-  enabled: true
-  elasticsearch:
+xpack.monitoring.enabled: true
+  # elasticsearch:
+    # hosts: ["${ELASTICSEARCH_HOST}:9200"]
