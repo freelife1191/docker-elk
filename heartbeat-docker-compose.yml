@@ -5,8 +5,8 @@ version: "3.8"
 
 services:
 
-  auditbeat:
-    image: docker.elastic.co/beats/auditbeat:${ELASTIC_VERSION:-7.10.2}
+  heartbeat:
+    image: docker.elastic.co/beats/heartbeat:${ELASTIC_VERSION:-7.10.2}
     # https://github.com/docker/swarmkit/issues/1951
     hostname: "heartbeat"
     # Need to override user so we can access the log files, and docker.sock
