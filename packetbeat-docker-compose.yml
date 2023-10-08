@@ -10,8 +10,10 @@ services:
     user: root
     volumes:
       - packetbeat:/usr/share/packetbeat/data
+      #Allows us to report on docker from the hosts information.
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
+      #Mount the packetbeat configuration so users can make edits.
       - ./beats/packetbeat/config/packetbeat.yml:/usr/share/packetbeat/packetbeat.yml:ro
     environment:
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-elasticsearch}
@@ -24,6 +26,8 @@ services:
       - TZ=Asia/Seoul
     networks:
       - elk
+    depends_on:
+      - elasticsearch
     restart: unless-stopped
     # healthcheck:
     #   test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]

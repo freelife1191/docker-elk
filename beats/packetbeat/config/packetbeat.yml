@@ -1,21 +1,44 @@
 #============================== Network device ================================
+#We monitor any devices on the host OS. For OSX this is the VM hosting Docker.
 packetbeat.interfaces.device: any
 
 #================================== Flows =====================================
 packetbeat.flows:
+  enabled: true
   timeout: 30s
   period: 10s
 
 #========================== Transaction protocols =============================
 packetbeat.protocols:
+- type: icmp
+  enabled: true
+
+# - type: dns
+  # ports: [53]
+
 - type: http
-  ports: [80, 8080, 5000]
+  ports: [80, 8080, 5000, 5601, 9200, 8081, 8002]
   send_headers: true
   send_all_headers: true
 
 - type: tls
   ports: [443]
   send_certificates: false
+
+# packetbeat.protocols.memcache:
+#   ports: [11211]
+# packetbeat.protocols.mysql:
+#   ports: [3306]
+# packetbeat.protocols.pgsql:
+#   ports: [5432]
+# packetbeat.protocols.redis:
+#   ports: [6379]
+# packetbeat.protocols.thrift:
+#   ports: [9090]
+# packetbeat.protocols.mongodb:
+#   ports: [27017]
+# packetbeat.protocols.cassandra:
+#   ports: [9042]
 
 #=========================== Monitored processes ==============================
 packetbeat.procs:

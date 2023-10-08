@@ -1,15 +1,25 @@
 # https://github.com/elastic/beats/blob/master/filebeat/filebeat.reference.yml
-filebeat.config.modules:
-  path: ${path.home}/modules.d/*.yml
-  # path: ${path.config}/modules.d/*.yml
-  reload.enabled: false
 
+filebeat.registry.path: /usr/share/filebeat/data/registry
+
+filebeat.config:
+  prospectors:
+    path: ${path.home}/prospectors.d/*.yml
+    reload.enabled: false
+  modules:
+    path: ${path.home}/modules.d/*.yml
+    # path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+#Filebeat system module consumes logs from host OS through a mounted volume.
 filebeat.modules:
 - module: system
   syslog:
     enabled: true
+    var.paths: ["/var/log/host/system.log*"]
   auth:
     enabled: true
+    
 - module: auditd
   log:
     # - Does not look like Auditd is supported in Alpine linux: https://github.com/linuxkit/linuxkit/issues/52
@@ -45,6 +55,10 @@ processors:
     format: offset
 - add_host_metadata:
     netinfo.enabled: true
+
+monitoring.enabled: true
+
+logging.to_files: false
 
 #========================== Elasticsearch output ===============================
 output.elasticsearch:

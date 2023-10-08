@@ -6,7 +6,7 @@ services:
     image: docker.elastic.co/beats/metricbeat:${ELASTIC_VERSION:-7.10.2}
     # https://github.com/docker/swarmkit/issues/1951
     hostname: "metricbeat"
-    privileged: true
+    # privileged: true
     user: root
     volumes:
       - /proc:/hostfs/proc:ro
@@ -24,6 +24,8 @@ services:
       - TZ=Asia/Seoul
     networks:
       - elk
+    depends_on:
+      - elasticsearch
     restart: unless-stopped
     # healthcheck:
     #   test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]

@@ -89,10 +89,10 @@ services:
       - elk
     restart: unless-stopped
     # healthcheck:
-    #   test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]
-    #   interval: 10s
-    #   timeout: 10s
-    #   retries: 3
+      # test: ["CMD", "curl","-s" ,"-f", "http://localhost:9200/_cat/health"]
+      #   interval: 10s
+      #   timeout: 10s
+      #   retries: 3
     # deploy:
     #   resources:
     #     limits:
@@ -126,7 +126,7 @@ services:
       - elasticsearch
     restart: unless-stopped
     # healthcheck:
-    #   test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]
+    #   test: ["CMD", "curl", "-s", "-f", "http://localhost:5601/"]
     #   interval: 10s
     #   timeout: 10s
     #   retries: 3

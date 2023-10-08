@@ -8,24 +8,22 @@ services:
   auditbeat:
     image: docker.elastic.co/beats/auditbeat:${ELASTIC_VERSION:-7.10.2}
     # https://github.com/docker/swarmkit/issues/1951
-    hostname: "auditbeat"
+    hostname: "heartbeat"
     # Need to override user so we can access the log files, and docker.sock
-    privileged: true
+    # privileged: true
     user: root
     # https://www.elastic.co/guide/en/beats/auditbeat/current/running-on-docker.html#_special_requirements
     # PID and CAP_ADD options are ignored as they are Not yet available in swarm mode at the moment.
     # Eagerly waiting for Docker 19.06 release which will bring --privileged flag to Docker
     # Swarm Mode https://github.com/moby/moby/issues/24862#issuecomment-451594187
     # support for capabilities https://github.com/moby/moby/pull/38380
-    pid: host
     volumes:
-      - auditbeat:/usr/share/auditbeat/data
-      - /var/log:/var/log:ro
-      - /etc/localtime:/etc/localtime:ro
       #Allows us to report on docker from the hosts information.
       - /var/run/docker.sock:/var/run/docker.sock
-      #Mount the Auditbeat configuration so users can make edits.
-      - ./beats/auditbeat/config/auditbeat.yml:/usr/share/auditbeat/auditbeat.yml:ro
+      - heartbeat:/usr/share/heartbeat/data
+      - /etc/localtime:/etc/localtime:ro
+      #Mount the Heartbeat configuration so users can make edits.
+      - ./beats/heartbeat/config/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro
     environment:
       - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-elasticsearch}
       - KIBANA_HOST=${KIBANA_HOST:-kibana}
@@ -37,10 +35,8 @@ services:
     depends_on:
       - elasticsearch
     restart: unless-stopped
-    cap_add:
-      - AUDIT_CONTROL
-      - AUDIT_READ
     command: ["--strict.perms=false"]
+      # elasticsearch: { condition: service_healthy }
     deploy:
       mode: global
 
@@ -49,7 +45,7 @@ networks:
     driver: bridge
 
 volumes:
-  auditbeat:
+  heartbeat:
     # driver: local
     # driver_opts:
     #   type: none

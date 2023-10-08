@@ -9,15 +9,22 @@ services:
     # https://github.com/docker/swarmkit/issues/1951
     hostname: "filebeat"
     # Need to override user so we can access the log files, and docker.sock
-    privileged: true
+    # privileged: true
     user: root
     volumes:
+      #Named volume fsdata. This is used to persist the registry file between restarts, so to avoid data duplication.
       - filebeat:/usr/share/filebeat/data
+      #Allows us to report on docker from the hosts information.
       - /var/run/docker.sock:/var/run/docker.sock
+      #Mount the Docker logs for indexing by the custom prospector ./config/filebeat/prospectors.d.
+      - /var/lib/docker/containers:/hostfs/var/lib/docker/containers
       # This is needed for filebeat to load container log path as specified in filebeat.yml
       - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
       - /etc/localtime:/etc/localtime:ro
+      #Mount the Filebeat configuration so users can make edits.
       - ./beats/filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+       #Mount the prospectors directory. Users can in turn add propspectors to this directory and they will be dynamically loaded.
+      - ./beats/filebeat/config/prospectors.d/:/usr/share/filebeat/prospectors.d/
       - ./beats/filebeat/config/modules.d/elasticsearch.yml:/usr/share/filebeat/modules.d/elasticsearch.yml:ro
       - ./logs/filebeat:/usr/share/filebeat/logs
       - ./logs/elasticsearch:/usr/share/elasticsearch/logs:ro
@@ -36,6 +43,8 @@ services:
       - TZ=Asia/Seoul
     networks:
       - elk
+    depends_on:
+      - elasticsearch
     restart: unless-stopped
     # healthcheck:
     #   test: ["CMD-SHELL", "curl --silent --fail localhost:9600 || exit 1"]
