@@ -108,6 +108,7 @@ services:
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
+      - /etc/localtime:/etc/localtime:ro
       # - ./logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml:ro,Z
       # - ./logs/elasticsearch:/usr/share/elasticsearch/logs:Z
     ports:
@@ -118,6 +119,7 @@ services:
     environment:
       LS_JAVA_OPTS: -Xms512m -Xmx512m
       LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+      TZ: Asia/Seoul
     networks:
       - elk
     depends_on:
